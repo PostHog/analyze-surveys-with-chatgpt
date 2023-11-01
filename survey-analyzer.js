@@ -10,7 +10,7 @@ const csvToArr = async (filePath) => {
   const results = [];
   return new Promise((resolve, reject) => {
     fs.createReadStream(filePath)
-      .pipe(csv({ headers: ['answer'] })) // add your column names as needed
+      .pipe(csv({ headers: ['answer'] }))
       .on('data', data => results.push(data))
       .on('end', () => {
         resolve(results);
@@ -22,7 +22,7 @@ const csvToArr = async (filePath) => {
 }
 
 const analyzeSurveyResponses = async () => {
-  const responses = await csvToArr('responses.csv')
+  const surveyResponses = await csvToArr('responses.csv')
   const batchSize = 50;
   
   for (let i = 0; i < responses.length; i += batchSize) {
@@ -33,7 +33,8 @@ const analyzeSurveyResponses = async () => {
         messages: [
           {
             "role": "system", 
-            "content": `Your job is to analyze survey responses. For each response, extract the sentiment (positive or negative only) as well as the theme in the response. 
+            "content": `Your job is to analyze survey responses. For each response, extract the sentiment (positive or negative only) as well as the theme in the response.
+
               You must only respond with an array containing JSONs. These JSON objects must contain the keys "survey_response", "sentiment", and "theme". 
               
               Here's an example of an valid response: 
@@ -42,7 +43,7 @@ const analyzeSurveyResponses = async () => {
                 {
                   "survey_response": "The product has potential, but it's not very intuitive to use. Please simplify the interface",
                   "sentiment": "negative",
-                  "theme": "intuitiveness",
+                  "theme": "user interface",
                 }
               ]
               \`\`\`
