@@ -26,7 +26,7 @@ const reduceThemes = async () => {
     try {
       const themes = new Set(analyzedAnswers.map(answer => answer.theme))
       const result = await openai.chat.completions.create({
-        model: "gpt-4",
+        model: "gpt-3.5-turbo-16k",
         messages: [
           {
             "role": "system", 
